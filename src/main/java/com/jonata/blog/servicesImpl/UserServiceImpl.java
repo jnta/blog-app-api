@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
     final UserRepository userRepository;
 
-    public  UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -30,7 +29,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto createUser(User user) {
+    public UserDto createUser(UserForm userForm) {
+        User user = userForm.convert();
         userRepository.save(user);
 
         return new UserDto(user);
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto updateUser(UUID id, UserForm userForm) {
+    public UserDto updateUser(Long id, UserForm userForm) {
         User user = userRepository.findById(id).orElseThrow(() -> new SourceNotFoundException("User not Found!"));
 
         user.setName(userForm.getName());
@@ -52,12 +52,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDto> getUserById(UUID id) {
-        return userRepository.findById(id).map(UserDto::new);
+    public Optional<UserDto> getUserById(Long id) {
+        Optional<UserDto> userDto = userRepository.findById(id).map(UserDto::new);
+        return userDto;
     }
 
     @Override
-    public void deleteUser(UUID id) {
+    @Transactional
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
 }

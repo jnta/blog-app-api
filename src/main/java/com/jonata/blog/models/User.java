@@ -1,22 +1,18 @@
 package com.jonata.blog.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class User implements Serializable {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Column(name = "user_name", nullable = false, length = 100)
     private String name;

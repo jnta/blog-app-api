@@ -8,17 +8,17 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
 @Setter
 public class UserDto {
 
-    private UUID id;
+    private Long id;
     @NotBlank
     private String name;
-    @NotBlank @Email
+    @NotBlank
+    @Email
     private String email;
     private String about;
 
@@ -29,7 +29,7 @@ public class UserDto {
         this.about = user.getAbout();
     }
 
-    public UserDto(UUID id, UserForm userForm) {
+    public UserDto(Long id, UserForm userForm) {
         this.id = id;
         this.name = userForm.getName();
         this.email = userForm.getEmail();
