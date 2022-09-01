@@ -1,7 +1,7 @@
 package com.jonata.blog.controllers;
 
 import com.jonata.blog.dtos.UserDto;
-import com.jonata.blog.exceptions.SourceNotFoundException;
+import com.jonata.blog.exceptions.ResourceNotFoundException;
 import com.jonata.blog.forms.UserForm;
 import com.jonata.blog.repositories.UserRepository;
 import com.jonata.blog.services.UserService;
@@ -50,7 +50,7 @@ public class UserController {
         try {
             UserDto userDto = userService.updateUser(id, userForm);
             return new ResponseEntity<>(userDto, HttpStatus.OK);
-        } catch (SourceNotFoundException exception) {
+        } catch (ResourceNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
         }
     }

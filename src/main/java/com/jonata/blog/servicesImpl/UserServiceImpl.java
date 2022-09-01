@@ -1,7 +1,7 @@
 package com.jonata.blog.servicesImpl;
 
 import com.jonata.blog.dtos.UserDto;
-import com.jonata.blog.exceptions.SourceNotFoundException;
+import com.jonata.blog.exceptions.ResourceNotFoundException;
 import com.jonata.blog.forms.UserForm;
 import com.jonata.blog.models.User;
 import com.jonata.blog.repositories.UserRepository;
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto updateUser(Long id, UserForm userForm) {
-        User user = userRepository.findById(id).orElseThrow(() -> new SourceNotFoundException("User not Found!"));
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not Found!"));
 
         user.setName(userForm.getName());
         user.setEmail(userForm.getEmail());
