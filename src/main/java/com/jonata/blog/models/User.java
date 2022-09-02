@@ -3,12 +3,13 @@ package com.jonata.blog.models;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Data
-public class User implements Serializable {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,5 +23,6 @@ public class User implements Serializable {
     private String about;
     @Column(nullable = false)
     private String password;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
 }

@@ -9,13 +9,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CategoryDto {
-    private Long categoryId;
-    private String categoryTitle;
-    private String categoryDescription;
+    private Long id;
+    private String title;
+    private String description;
 
     public CategoryDto(Category category) {
-        this.categoryId = category.getCategoryId();
-        this.categoryTitle = category.getCategoryTitle();
-        this.categoryDescription = category.getCategoryDescription();
+        this.id = category.getId();
+        this.title = category.getTitle();
+        this.description = category.getDescription();
     }
 }

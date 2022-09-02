@@ -14,13 +14,13 @@ import javax.validation.constraints.NotBlank;
 public class CategoryForm {
     @NotBlank
     @Length(max = 100)
-    private String categoryTitle;
-    private String categoryDescription;
+    private String title;
+    private String description;
 
     public Category convert() {
         Category category = new Category();
-        category.setCategoryTitle(this.categoryTitle);
-        category.setCategoryDescription(this.categoryDescription);
+        category.setTitle(this.title);
+        category.setDescription(this.description);
 
         return category;
     }
