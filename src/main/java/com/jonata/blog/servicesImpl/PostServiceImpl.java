@@ -12,6 +12,8 @@ import com.jonata.blog.repositories.UserRepository;
 import com.jonata.blog.services.CategoryService;
 import com.jonata.blog.services.PostService;
 import com.jonata.blog.services.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -47,8 +49,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAll() {
-        return postRepository.findAll().stream().map(PostDto::new).collect(Collectors.toList());
+    public List<PostDto> getAll(Pageable pageable) {
+        Page<Post> pagePosts = this.postRepository.findAll(pageable);
+        List<Post> posts = pagePosts.getContent();
+
+        return posts.stream().map(PostDto::new).collect(Collectors.toList());
     }
 
     @Override
@@ -76,6 +81,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public PostDto update(Long id, PostForm postForm) {
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found!"));
         post.setTitle(post.getTitle());
@@ -87,6 +93,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found!"));
         postRepository.delete(post);
