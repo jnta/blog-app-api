@@ -75,6 +75,12 @@ public class PostController {
         }
     }
 
+    @GetMapping("/posts/search/{keywords}")
+    public ResponseEntity<List<PostDto>> searchPostByTitle(@PathVariable("keywords") String keywords) {
+        List<PostDto> posts = this.postService.search(keywords);
+        return ResponseEntity.status(HttpStatus.OK).body(posts);
+    }
+
     @PutMapping("/posts/{postId}")
     public ResponseEntity<Object> update(@PathVariable("postId") Long postId, @RequestBody @Valid PostForm postForm) {
         try {

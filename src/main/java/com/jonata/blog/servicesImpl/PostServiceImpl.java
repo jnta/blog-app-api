@@ -52,7 +52,6 @@ public class PostServiceImpl implements PostService {
     public Page<PostDto> getAll(Pageable pageable) {
         Page<PostDto> pagePosts = this.postRepository.findAll(pageable).map(content -> new PostDto(content));
 
-
         return pagePosts;
     }
 
@@ -77,7 +76,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> search(String keyword) {
-        return null;
+        List<Post> posts = this.postRepository.searchByTitle("%" + keyword + "%");
+        return posts.stream().map(PostDto::new).collect(Collectors.toList());
     }
 
     @Override
