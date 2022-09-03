@@ -2,6 +2,7 @@ package com.jonata.blog.services;
 
 import com.jonata.blog.dtos.PostDto;
 import com.jonata.blog.forms.PostForm;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface PostService {
 
     PostDto create(Long userid, Long categoryId, PostForm postForm);
 
-    List<PostDto> getAll(Pageable pageable);
+    Page<PostDto> getAll(Pageable pageable);
 
     PostDto getById(Long id);
 

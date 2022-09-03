@@ -4,6 +4,7 @@ import com.jonata.blog.dtos.PostDto;
 import com.jonata.blog.exceptions.ResourceNotFoundException;
 import com.jonata.blog.forms.PostForm;
 import com.jonata.blog.services.PostService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -38,8 +39,8 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public ResponseEntity<List<PostDto>> getAll(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        List<PostDto> posts = this.postService.getAll(pageable);
+    public ResponseEntity<Page<PostDto>> getAll(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<PostDto> posts = this.postService.getAll(pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(posts);
     }

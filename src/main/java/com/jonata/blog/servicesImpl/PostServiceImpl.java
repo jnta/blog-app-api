@@ -49,11 +49,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAll(Pageable pageable) {
-        Page<Post> pagePosts = this.postRepository.findAll(pageable);
-        List<Post> posts = pagePosts.getContent();
+    public Page<PostDto> getAll(Pageable pageable) {
+        Page<PostDto> pagePosts = this.postRepository.findAll(pageable).map(content -> new PostDto(content));
 
-        return posts.stream().map(PostDto::new).collect(Collectors.toList());
+
+        return pagePosts;
     }
 
     @Override
