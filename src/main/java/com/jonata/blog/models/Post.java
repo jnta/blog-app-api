@@ -3,7 +3,9 @@ package com.jonata.blog.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -21,8 +23,11 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn = new Date();
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
-
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 }
