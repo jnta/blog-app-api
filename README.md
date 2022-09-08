@@ -1,18 +1,22 @@
 # blog-app-api
 
-Uma aplicação para blog que permite cadastrar usuários, escrever posts e comentários.
+A REST API for blogging using Spring Boot.
 
-## Stack utilizada
+
+## Tech Stack
 
 - Spring Boot
-- Spring Data e JPA
+- Spring Data JPA
 - Spring Security
-- MySql
+- MySQL
+- JJWT
 
-## Funcionalidades
 
-- Cadatro de usuários, categorias, posts e comentários
-- Remoção, atualização e listagem de usuários, categorias, posts e comentários
-- Autenticação
+## Features
+
+- CRUD for users, posts and comments
+- Authentication and authorization using JWT
+
+
 
 
