@@ -33,7 +33,6 @@ public class UserForm {
         user.setName(this.name);
         user.setEmail(this.email);
         user.setAbout(this.about);
-        user.setPassword(this.password);
 
         return user;
     }

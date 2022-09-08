@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface UserService {
 
+    UserDto registerUser(UserForm userForm);
+
     List<UserDto> getAllUsers();
 
     UserDto createUser(UserForm userForm);

@@ -1,6 +1,9 @@
 package com.jonata.blog.controllers;
 
+import com.jonata.blog.dtos.UserDto;
+import com.jonata.blog.forms.UserForm;
 import com.jonata.blog.security.JwtTokenHelper;
+import com.jonata.blog.services.UserService;
 import com.jonata.blog.utils.JwtAuthRequest;
 import com.jonata.blog.utils.JwtAuthResponse;
 import org.springframework.http.HttpStatus;
@@ -23,11 +26,13 @@ public class AuthController {
     private final JwtTokenHelper jwtTokenHelper;
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
-    public AuthController(JwtTokenHelper jwtTokenHelper, UserDetailsService userDetailsService, AuthenticationManager authenticationManager) {
+    public AuthController(JwtTokenHelper jwtTokenHelper, UserDetailsService userDetailsService, AuthenticationManager authenticationManager, UserService userService) {
         this.jwtTokenHelper = jwtTokenHelper;
         this.userDetailsService = userDetailsService;
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -42,6 +47,13 @@ public class AuthController {
         jwtAuthResponse.setToken(token);
 
         return ResponseEntity.status(HttpStatus.OK).body(jwtAuthResponse);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> registerUser(@RequestBody @Valid UserForm userForm) {
+        UserDto userDto = this.userService.registerUser(userForm);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
+
     }
 
     private void authenticate(String username, String password) {
