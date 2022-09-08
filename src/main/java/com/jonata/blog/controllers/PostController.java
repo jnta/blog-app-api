@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class PostController {
 
     private final PostService postService;
