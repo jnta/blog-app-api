@@ -2,6 +2,7 @@ package com.jonata.blog.services;
 
 import com.jonata.blog.dtos.UserDto;
 import com.jonata.blog.forms.UserForm;
+import com.jonata.blog.models.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,5 +17,5 @@ public interface UserService {
 
     Optional<UserDto> getUserById(Long id);
 
-    void deleteUser(Long id);
+    void deleteUser(User user);
 }

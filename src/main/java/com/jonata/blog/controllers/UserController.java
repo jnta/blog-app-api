@@ -3,6 +3,7 @@ package com.jonata.blog.controllers;
 import com.jonata.blog.dtos.UserDto;
 import com.jonata.blog.exceptions.ResourceNotFoundException;
 import com.jonata.blog.forms.UserForm;
+import com.jonata.blog.models.User;
 import com.jonata.blog.repositories.UserRepository;
 import com.jonata.blog.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -47,25 +48,17 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateUser(@PathVariable(value = "id") Long id, @RequestBody @Valid UserForm userForm) {
-        try {
-            UserDto userDto = userService.updateUser(id, userForm);
-            return new ResponseEntity<>(userDto, HttpStatus.OK);
-        } catch (ResourceNotFoundException exception) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
-        }
+    public ResponseEntity<UserDto> updateUser(@PathVariable(value = "id") Long id, @RequestBody @Valid UserForm userForm) {
+        UserDto userDto = userService.updateUser(id, userForm);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") Long id) {
-        Optional<UserDto> optionalUserDto = userService.getUserById(id);
-        if (optionalUserDto.isPresent()) {
-            userService.deleteUser(id);
-            return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully!");
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found!");
-
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+        userService.deleteUser(user);
+        return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully!");
     }
 
 }

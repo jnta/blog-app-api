@@ -1,9 +1,9 @@
 package com.jonata.blog.controllers;
 
 import com.jonata.blog.dtos.PostDto;
-import com.jonata.blog.exceptions.ResourceNotFoundException;
 import com.jonata.blog.forms.PostForm;
 import com.jonata.blog.services.PostService;
+import com.jonata.blog.utils.ApiResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,17 +26,14 @@ public class PostController {
     }
 
     @PostMapping("/user/{userId}/category/{categoryId}/posts")
-    public ResponseEntity<Object> create(
+    public ResponseEntity<PostDto> create(
             @PathVariable("userId") Long userId,
             @PathVariable("categoryId") Long categoryId,
             @RequestBody @Valid PostForm postForm) {
 
-        try {
-            PostDto postDto = this.postService.create(userId, categoryId, postForm);
-            return ResponseEntity.status(HttpStatus.CREATED).body(postDto);
-        } catch (ResourceNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+        PostDto postDto = this.postService.create(userId, categoryId, postForm);
+        return ResponseEntity.status(HttpStatus.CREATED).body(postDto);
+
     }
 
     @GetMapping("/posts")
@@ -47,33 +44,21 @@ public class PostController {
     }
 
     @GetMapping("/posts/{id}")
-    public ResponseEntity<Object> getById(@PathVariable("id") Long id) {
-        try {
-            PostDto posts = this.postService.getById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(posts);
-        } catch (ResourceNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+    public ResponseEntity<PostDto> getById(@PathVariable("id") Long id) {
+        PostDto posts = this.postService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(posts);
     }
 
     @GetMapping("/user/{userId}/posts")
-    public ResponseEntity<Object> getByUserId(@PathVariable("userId") Long userId) {
-        try {
-            List<PostDto> posts = this.postService.getByUserId(userId);
-            return ResponseEntity.status(HttpStatus.OK).body(posts);
-        } catch (ResourceNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+    public ResponseEntity<List<PostDto>> getByUserId(@PathVariable("userId") Long userId) {
+        List<PostDto> posts = this.postService.getByUserId(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(posts);
     }
 
     @GetMapping("/category/{categoryId}/posts")
-    public ResponseEntity<Object> getByCategoryId(@PathVariable("categoryId") Long categoryId) {
-        try {
-            List<PostDto> posts = this.postService.getByCategoryId(categoryId);
-            return ResponseEntity.status(HttpStatus.OK).body(posts);
-        } catch (ResourceNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+    public ResponseEntity<List<PostDto>> getByCategoryId(@PathVariable("categoryId") Long categoryId) {
+        List<PostDto> posts = this.postService.getByCategoryId(categoryId);
+        return ResponseEntity.status(HttpStatus.OK).body(posts);
     }
 
     @GetMapping("/posts/search/{keywords}")
@@ -83,22 +68,15 @@ public class PostController {
     }
 
     @PutMapping("/posts/{postId}")
-    public ResponseEntity<Object> update(@PathVariable("postId") Long postId, @RequestBody @Valid PostForm postForm) {
-        try {
-            PostDto postDto = this.postService.update(postId, postForm);
-            return ResponseEntity.status(HttpStatus.OK).body(postDto);
-        } catch (ResourceNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+    public ResponseEntity<PostDto> update(@PathVariable("postId") Long postId, @RequestBody @Valid PostForm postForm) {
+
+        PostDto postDto = this.postService.update(postId, postForm);
+        return ResponseEntity.status(HttpStatus.OK).body(postDto);
     }
 
     @DeleteMapping("/posts/{postId}")
-    public ResponseEntity<Object> delete(@PathVariable("postId") Long postId) {
-        try {
-            this.postService.delete(postId);
-            return ResponseEntity.status(HttpStatus.OK).body("Post deleted successfully!");
-        } catch (ResourceNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+    public ResponseEntity<ApiResponse> delete(@PathVariable("postId") Long postId) {
+        this.postService.delete(postId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Post deleted successfully!", true));
     }
 }
