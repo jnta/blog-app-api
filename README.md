@@ -1,7 +1,6 @@
-# blog-app-api
+# Blog App API
 
-A REST API for blogging using Spring Boot.
-
+The **Blog App API** is a RESTful service designed for blogging purposes, built with Spring Boot.
 
 ## Tech Stack
 
@@ -9,14 +8,11 @@ A REST API for blogging using Spring Boot.
 - Spring Data JPA
 - Spring Security
 - MySQL
-- JJWT
-
+- JSON Web Tokens (JWT)
 
 ## Features
 
-- CRUD for users, posts and comments
-- Authentication and authorization using JWT
-
-
+- **CRUD Operations**: Enables users to Create, Read, Update, and Delete blog posts, comments, and users.
+- **Authentication and Authorization**: Utilizes JSON Web Tokens (JWT) for secure authentication and authorization, ensuring that only authenticated users can access certain functionalities.
 
 
